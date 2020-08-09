@@ -1,0 +1,25 @@
+
+
+What does this project aim to do?
+
+To design a platform that I can use to write and deploy Automated Trading Robots with visual tracking components.
+
+Bar Charts
+    Bar styles and colors
+    Supports renko
+Open Trades
+    Including Stop Losses
+    History Analytics? or integration with that forex balance tracker
+Capability to run trading bot scripts
+    Potentially using an embedded language such as lua or python
+    Backtesting with simulated spread
+
+
+How to start?
+
+We need a window, and a way to display custom graphics of some sort, I should'nt need OpenGL or anything like that
+Draw historical data
+Open and close trades
+
+
+
