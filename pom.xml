@@ -55,7 +55,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
                 <configuration>
-                    <mainClass>com.cosenza.main</mainClass>
+                    <mainClass>com.cosenza.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

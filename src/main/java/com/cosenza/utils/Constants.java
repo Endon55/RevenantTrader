@@ -1,6 +1,6 @@
 package com.cosenza.utils;
 
-public final class constants
+public final class Constants
 {
     public static final String WINDOW_NAME = "Revenant Trader";
     public static final int WINDOW_WIDTH = 600;
