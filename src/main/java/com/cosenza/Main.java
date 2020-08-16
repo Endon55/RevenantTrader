@@ -1,27 +1,34 @@
 package com.cosenza;
-import com.cosenza.charting.OHLC;
+import com.cosenza.chart.CandlestickChart;
 import com.cosenza.utils.CSVReader;
 import com.cosenza.utils.Constants;
+import com.cosenza.utils.OHLC;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.Axis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+/*
+    Current thoughts are i need to use extends Region or Chart. Probably region will give me the most flexibility and maybe performance but ill need to dig deeper.
+    Potentially using a webview and javascript to accomplish the charting
 
 
+    Ok we may have solved it boys. https://github.com/GSI-CS-CO/chart-fx
+    This sight has a library doing exactly what we want, Im not interested in using their work past being reference material.
+    So it appears they actually just draw onto the screen normally, theres no tricks.
+    Canvas has a GraphicsContext built in so now we figure out the efficient way to draw potentially thousands of rectangles and lines.
+
+
+
+ */
 
 public class Main extends Application
 {
 
     //private static Scene scene;
-    private ArrayList<ArrayList<Float>> data;
+    private ObservableList<OHLC> DataSet;
     private float currentLowest;
     private float currentHighest;
 
@@ -32,39 +39,32 @@ public class Main extends Application
         stage.setTitle(Constants.WINDOW_NAME);
         Scene scene = new Scene(new Group(), Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-
-        //final OHLC chart1 = new OHLC();
-
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
+        CandlestickChart chart = new CandlestickChart(
+                (int)(Constants.WINDOW_WIDTH  * Constants.CHART_AND_CANVAS_WIDTH_PERCENT),
+                (int)(Constants.WINDOW_HEIGHT * Constants.CHART_AND_CANVAS_HEIGHT_PERCENT));
 
 
 
-        final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        chart.debug(true);
 
-        lineChart.getData().add(csvDataToSeries(data));
-        yAxis.setAutoRanging(false);
-        yAxis.setUpperBound(currentHighest);
-        yAxis.setLowerBound(currentLowest);
 
-        ((Group) scene.getRoot()).getChildren().add(lineChart);
+        ((Group) scene.getRoot()).getChildren().add(chart.getChartPane());
 
         stage.setScene(scene);
         stage.show();
-
     }
 
 
-    public XYChart.Series csvDataToSeries(ArrayList<ArrayList<Float>> data)
+    public XYChart.Series csvDataToSeries(ObservableList<OHLC> DataSet)
     {
         int index = 0;
-        float lowest = (data.get(0).get(2) + data.get(0).get(3) + data.get(0).get(4) + data.get(0).get(5)) / 4;
+        float lowest = DataSet.get(0).getAverage();
         float highest = lowest;
         XYChart.Series sr = new XYChart.Series();
 
-        for (ArrayList<Float> line : data)
+        for (OHLC data : DataSet)
         {
-            float average = (line.get(2) + line.get(3) + line.get(4) + line.get(5)) / 4;
+            float average = data.getAverage();
             System.out.println("Average: " + average);
             sr.getData().add(new XYChart.Data(index++, average));
 
@@ -82,27 +82,11 @@ public class Main extends Application
         String userDirectory = System.getProperty("user.dir");
         System.out.println("User Dir: " + userDirectory);
 
-        data = reader.Read(userDirectory + "/src/main/resources/com/cosenza/data.csv");
-        for (ArrayList<Float> list :
-                data)
-        {
-            for (Float dataPoint :
-                    list)
-            {
-                Float temp = dataPoint;
-                //System.out.println(String.format("%f", temp) + " ");
-            }
-            //System.out.println();
-        }
+        DataSet = reader.Read(userDirectory + "/src/main/resources/com/cosenza/data.csv");
     }
 
     public static void main(String[] args)
     {
-        CSVReader reader = new CSVReader();
-
-        //loadData();
-
-
         launch();
         System.out.println("hello world");
     }

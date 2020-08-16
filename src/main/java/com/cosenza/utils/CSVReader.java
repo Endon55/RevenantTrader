@@ -1,13 +1,14 @@
 package com.cosenza.utils;
 
-import com.cosenza.charting.OHLC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CSVReader
 {
@@ -21,9 +22,10 @@ public class CSVReader
 
     }
 
-    public ArrayList<ArrayList<Float>> Read(String filepath)
+    public ObservableList<OHLC> Read(String filepath)
     {
-        ArrayList<ArrayList<Float>> data = new ArrayList<ArrayList<Float>>();
+        ObservableList<OHLC> DataSet = FXCollections.observableArrayList();
+
         String line = "";
         try
         {
@@ -33,20 +35,10 @@ public class CSVReader
                 //Strange Bug: If you try to print this data to console, remember toString() returns scientific notation on anything above 7 digits
                 String[] values = line.split(csvSplitBy);
                 ArrayList<Float> valueList = new ArrayList<Float>();
+                //------------------------------Open------------------------High---------------------------Low------------------------Close----------------Date-------Time----
+                OHLC data = new OHLC(Float.parseFloat(values[2]), Float.parseFloat(values[3]), Float.parseFloat(values[4]), Float.parseFloat(values[5]), values[0], values[1]);
+                DataSet.add(data);
 
-                //Converts 2019.01.01 to 20190101
-                valueList.add(Float.parseFloat(values[0].replace(".", "")));
-                //Converts Time 17:50 to 17.50
-                valueList.add(Float.parseFloat(values[1].replace(":", ".")));
-                //Minute  Open Value
-                valueList.add(Float.parseFloat(values[2]));
-                //Minute  High Value
-                valueList.add(Float.parseFloat(values[3]));
-                //Minute   Low Value
-                valueList.add(Float.parseFloat(values[4]));
-                //Minute Close Value
-                valueList.add(Float.parseFloat(values[5]));
-                data.add(valueList);
             }
 
         } catch (IOException e)
@@ -55,7 +47,7 @@ public class CSVReader
         }
 
 
-        return data;
+        return DataSet;
     }
 
 }
