@@ -1,6 +1,7 @@
 package com.cosenza.axis;
 
 import com.cosenza.utils.Constants;
+import com.cosenza.utils.enums.AxisType;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,19 +12,17 @@ public class PriceAxis extends Axis
 {
     float upperBound;
     float lowerBound;
-    Canvas canvas;
-    float scale;
-    int increments;
-    float valueIncrements;
+    float valueOfIncrements;
 
     public PriceAxis(float upperBound, float lowerBound, Canvas canvas)
     {
+        super(canvas, AxisType.VERTICAL);
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;
-        this.canvas = canvas;
-        scale = 1;
-        increments = (int)(canvas.getHeight() - Constants.PIXEL_BUFFER_PRICE_AXIS) / Constants.PIXELS_BETWEEN_PRICE_INCREMENTS;
-        valueIncrements = (upperBound - lowerBound) / increments;
+
+        //numberOfIncrements = (int)(canvas.getHeight() - Constants.PIXEL_BUFFER_PRICE_AXIS) / Constants.PIXELS_BETWEEN_PRICE_INCREMENTS;
+        valueOfIncrements = (upperBound - lowerBound) / numberOfIncrements;
+
     }
 
     public int getCoordinate(float price)
@@ -32,54 +31,35 @@ public class PriceAxis extends Axis
         return 0;
     }
 
-    public void updateScaling()
-    {
-
-    }
-
-    public void draw()
-    {
-        //Math out pixel coordinates
-        //Draw Numbers
-        //Draw Hashes next to numbers
-        //Math out sub increment hashes
-        //Draw Sub Hashes
-
-
-
-
-        drawNumber(canvas.getGraphicsContext2D());
-        drawHashes(canvas.getGraphicsContext2D());
-
-    }
-    private void drawNumber(GraphicsContext graphicsContext)
+    public void drawNumbers(GraphicsContext graphicsContext)
     {
         float number = lowerBound;
         int verticalCoordinate = (int)(canvas.getHeight() - Constants.PIXEL_BUFFER_PRICE_AXIS);
         graphicsContext.setTextBaseline(VPos.CENTER);
 
         DecimalFormat decimalFormat = new DecimalFormat("##.00000");
-        for (int i = 0; i < increments; i++)
+        for (int i = 0; i < numberOfIncrements; i++)
         {
             String text = decimalFormat.format(number);
-            System.out.println(text);
+            //System.out.println(text);
             graphicsContext.strokeText(text, 5, verticalCoordinate);
             verticalCoordinate -= Constants.PIXELS_BETWEEN_PRICE_INCREMENTS;
-            number += valueIncrements;
+            number += valueOfIncrements;
         }
     }
-    private void drawHashes(GraphicsContext graphicsContext)
+    public void draw()
+    {
+        drawNumbers(canvas.getGraphicsContext2D());
+        drawHashes (canvas.getGraphicsContext2D());
+    }
+    public void drawHashes(GraphicsContext graphicsContext)
     {
         int verticalCoordinate = (int)(canvas.getHeight() - Constants.PIXEL_BUFFER_PRICE_AXIS);
-
-        //graphicsContext.getFontSmoothingType();
-
-
-        for (int i = 0; i < increments * Constants.DASHES_BETWEEN_INCREMENTS; i++)
+        for (int i = 0; i < numberOfIncrements * Constants.DASHES_BETWEEN_PRICE_INCREMENTS; i++)
         {
-            if(i % 2 == 1) graphicsContext.strokeLine(0, verticalCoordinate, Constants.PIXEL_LONG_DASH_WIDTH, verticalCoordinate);
-            else graphicsContext.strokeLine(0, verticalCoordinate, Constants.PIXEL_SHORT_DASH_WIDTH, verticalCoordinate);
-            verticalCoordinate -= Constants.PIXELS_BETWEEN_DASHES;
+            if(i % 2 == 1) graphicsContext.strokeLine(0, verticalCoordinate, Constants.PIXEL_LONG_PRICE_DASH_WIDTH, verticalCoordinate);
+            else graphicsContext.strokeLine(0, verticalCoordinate, Constants.PIXEL_SHORT_PRICE_DASH_WIDTH, verticalCoordinate);
+            verticalCoordinate -= Constants.PIXELS_BETWEEN_PRICE_DASHES;
 
         }
     }

@@ -1,13 +1,15 @@
 package com.cosenza;
+
 import com.cosenza.chart.CandlestickChart;
 import com.cosenza.utils.CSVReader;
 import com.cosenza.utils.Constants;
-import com.cosenza.utils.OHLC;
+import com.cosenza.data.OHLC;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /*
@@ -19,8 +21,6 @@ import javafx.stage.Stage;
     This sight has a library doing exactly what we want, Im not interested in using their work past being reference material.
     So it appears they actually just draw onto the screen normally, theres no tricks.
     Canvas has a GraphicsContext built in so now we figure out the efficient way to draw potentially thousands of rectangles and lines.
-
-
 
  */
 
@@ -37,6 +37,8 @@ public class Main extends Application
     {
         loadData();
         stage.setTitle(Constants.WINDOW_NAME);
+        stage.getIcons().add(new Image("file:" + System.getProperty("user.dir") + "/src/main/resources/com/cosenza/icon2.png"));
+
         Scene scene = new Scene(new Group(), Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         CandlestickChart chart = new CandlestickChart(
@@ -80,7 +82,6 @@ public class Main extends Application
     {
         CSVReader reader = new CSVReader();
         String userDirectory = System.getProperty("user.dir");
-        System.out.println("User Dir: " + userDirectory);
 
         DataSet = reader.Read(userDirectory + "/src/main/resources/com/cosenza/data.csv");
     }

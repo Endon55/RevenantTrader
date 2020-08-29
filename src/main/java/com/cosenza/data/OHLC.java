@@ -1,4 +1,4 @@
-package com.cosenza.utils;
+package com.cosenza.data;
 
 import java.time.LocalDateTime;
 

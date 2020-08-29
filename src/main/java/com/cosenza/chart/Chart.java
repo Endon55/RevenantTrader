@@ -44,12 +44,12 @@ public class Chart
         int CenterWidth = assignedWidth - Constants.PRICE_AXIS_THICKNESS_PIXELS;
 
         //int horizontalAxisThickness = (int)(Constants.AXIS_THICKNESS_PIXELS * assignedHeight);
-        int CenterHeight = assignedHeight - Constants.PRICE_AXIS_THICKNESS_PIXELS;
+        int CenterHeight = assignedHeight - Constants.TIME_AXIS_THICKNESS_PIXELS;
 
         rightAxis.setWidth(Constants.PRICE_AXIS_THICKNESS_PIXELS);
         rightAxis.setHeight(CenterHeight);
 
-        System.out.println(Constants.PRICE_AXIS_THICKNESS_PIXELS);
+        //System.out.println(Constants.PRICE_AXIS_THICKNESS_PIXELS);
         bottomAxis.setHeight(Constants.PRICE_AXIS_THICKNESS_PIXELS);
         bottomAxis.setWidth(assignedWidth);
 
@@ -61,11 +61,11 @@ public class Chart
 
     protected void debugDraw()
     {
-        System.out.println("Right Axis");
+        //System.out.println("Right Axis");
         drawBounds(rightAxis.getGraphicsContext2D(), rightAxis.getBoundsInParent());
-        System.out.println("Bottom Axis");
+        //System.out.println("Bottom Axis");
         drawBounds(bottomAxis.getGraphicsContext2D(), bottomAxis.getBoundsInParent());
-        System.out.println("Center");
+        //System.out.println("Center");
         drawBounds(centerArea.getGraphicsContext2D(), centerArea.getBoundsInParent());
 
     }
