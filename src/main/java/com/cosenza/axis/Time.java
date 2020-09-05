@@ -1,5 +1,6 @@
-package com.cosenza.data;
+package com.cosenza.axis;
 
+import com.cosenza.utils.Constants;
 import com.cosenza.utils.enums.Months;
 import com.cosenza.utils.enums.Timeframe;
 
@@ -36,13 +37,13 @@ public class Time
     public void changeTimeSubtractTimeframe(Timeframe timeframe)
     {
 
-        localDateTime = LocalDateTime.ofEpochSecond(secondsSinceEpoch() - timeframe.getValue(), 0, ZoneOffset.UTC);
+        localDateTime = LocalDateTime.ofEpochSecond(secondsSinceEpoch() - timeframe.getValue() * Constants.INCREMENTS_BETWEEN_TIME_UNITS, 0, ZoneOffset.UTC);
     }
 
-    public void roundToTimeframe(Timeframe timeFrame)
+    public void roundToTimeframe(Timeframe timeframe)
     {
         long epochSeconds = secondsSinceEpoch();
-        long remainder = epochSeconds % timeFrame.getValue();
+        long remainder = epochSeconds % timeframe.getValue();
 
         changeTimeWithNewEpoch(epochSeconds - remainder);
     }
@@ -83,4 +84,10 @@ public class Time
     {
         return formattedAxisString(secondsSinceEpoch());
     }
+
+    public static long roundLongToTimeframe(long secondsSinceEpoch, Timeframe timeframe)
+    {
+        return secondsSinceEpoch - (secondsSinceEpoch % timeframe.getValue());
+    }
+
 }

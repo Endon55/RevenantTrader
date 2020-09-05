@@ -1,6 +1,6 @@
 package com.cosenza;
 
-import com.cosenza.chart.CandlestickChart;
+import com.cosenza.chart.WIndowFrame;
 import com.cosenza.utils.CSVReader;
 import com.cosenza.utils.Constants;
 import com.cosenza.data.OHLC;
@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -41,7 +40,7 @@ public class Main extends Application
 
         Scene scene = new Scene(new Group(), Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        CandlestickChart chart = new CandlestickChart(
+        WIndowFrame chart = new WIndowFrame(
                 (int)(Constants.WINDOW_WIDTH  * Constants.CHART_AND_CANVAS_WIDTH_PERCENT),
                 (int)(Constants.WINDOW_HEIGHT * Constants.CHART_AND_CANVAS_HEIGHT_PERCENT));
 
@@ -57,7 +56,7 @@ public class Main extends Application
     }
 
 
-    public XYChart.Series csvDataToSeries(ObservableList<OHLC> DataSet)
+/*    public XYChart.Series csvDataToSeries(ObservableList<OHLC> DataSet)
     {
         int index = 0;
         float lowest = DataSet.get(0).getAverage();
@@ -76,7 +75,7 @@ public class Main extends Application
         currentHighest = highest;
         currentLowest = lowest;
         return sr;
-    }
+    }*/
 
     public void loadData()
     {

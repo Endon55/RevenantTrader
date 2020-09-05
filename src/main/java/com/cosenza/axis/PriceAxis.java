@@ -13,6 +13,7 @@ public class PriceAxis extends Axis
     float upperBound;
     float lowerBound;
     float valueOfIncrements;
+    int highestPriceCoordinate;
 
     public PriceAxis(float upperBound, float lowerBound, Canvas canvas)
     {
@@ -33,7 +34,11 @@ public class PriceAxis extends Axis
 
     public void drawNumbers(GraphicsContext graphicsContext)
     {
+        /*
+         * Starts at the bottom of the canvas and decrements the pixel coordinates and increments the price. Top left of canvas is 0.
+         * */
         float number = lowerBound;
+        //
         int verticalCoordinate = (int)(canvas.getHeight() - Constants.PIXEL_BUFFER_PRICE_AXIS);
         graphicsContext.setTextBaseline(VPos.CENTER);
 
@@ -46,6 +51,8 @@ public class PriceAxis extends Axis
             verticalCoordinate -= Constants.PIXELS_BETWEEN_PRICE_INCREMENTS;
             number += valueOfIncrements;
         }
+        highestPriceCoordinate = verticalCoordinate;
+
     }
     public void draw()
     {
@@ -62,6 +69,21 @@ public class PriceAxis extends Axis
             verticalCoordinate -= Constants.PIXELS_BETWEEN_PRICE_DASHES;
 
         }
+    }
+
+    public int getYCoordinates(float price)
+    {
+        if(price > upperBound && price < lowerBound) throw new IndexOutOfBoundsException();
+
+        //Calculates percent-wise where the price should fall between the bounds
+        float pricePercentageOnCanvas = (price - lowerBound) / (upperBound - lowerBound);
+
+        //Gets the canvas height and gets the amount of pixels of drawable space between the buffers on top and bottom.
+        double workingNumberOfPixels = canvas.getHeight() - Constants.PIXEL_BUFFER_PRICE_AXIS - highestPriceCoordinate;
+
+        //Calculates where our percentage lines up on the number of pixels and normalizes the coordinates.
+        return (int)(workingNumberOfPixels * price) + highestPriceCoordinate;
+
     }
 
 }

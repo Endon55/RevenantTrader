@@ -24,10 +24,13 @@ public final class Constants
     public static final int PIXEL_LONG_PRICE_DASH_WIDTH = 15;
 
     //Time Axis formatting constants
-    public static final int PIXEL_BUFFER_TIME_AXIS = 120;
+    public static final int PIXEL_BUFFER_TIME_AXIS = 100;
     public static final int PIXELS_BETWEEN_TIME_INCREMENTS = 80;
     public static final int DASHES_BETWEEN_TIME_INCREMENTS = 1;
     public static final int PIXELS_BETWEEN_TIME_DASHES = PIXELS_BETWEEN_TIME_INCREMENTS / DASHES_BETWEEN_TIME_INCREMENTS;
+    public static final int INCREMENTS_BETWEEN_TIME_UNITS = 5;
+    public static final int PIXELS_BUFFER_BETWEEN_CANDLESTICKS = 2;
+    public static final int CANDLESTICKS_BETWEEN_TIME_INCREMENTS = 4;
 
 
 
@@ -39,6 +42,7 @@ public final class Constants
     public static final int SECONDS_IN_FOUR_HOURS = SECONDS_IN_AN_HOUR * 4;
     public static final int SECONDS_IN_A_DAY = SECONDS_IN_FOUR_HOURS * 6;
     public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+
 
 
 
