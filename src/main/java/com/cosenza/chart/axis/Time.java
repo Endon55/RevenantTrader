@@ -1,10 +1,9 @@
-package com.cosenza.axis;
+package com.cosenza.chart.axis;
 
 import com.cosenza.utils.Constants;
 import com.cosenza.utils.enums.Months;
 import com.cosenza.utils.enums.Timeframe;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 

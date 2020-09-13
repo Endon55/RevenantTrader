@@ -1,4 +1,4 @@
-package com.cosenza.utils;
+package com.cosenza.data;
 
 import com.cosenza.data.Candlestick;
 import com.cosenza.data.OHLC;
@@ -22,7 +22,7 @@ public class CSVReader
 
     }
 
-    public ObservableList<Candlestick> listOfCandlesticks(String filepath)
+    public ObservableList<Candlestick> listOfCandlesticks_1m(String filepath)
     {
         ObservableList<Candlestick> DataSet = FXCollections.observableArrayList();
 
@@ -80,5 +80,6 @@ public class CSVReader
 
         return DataSet;
     }
+
 
 }

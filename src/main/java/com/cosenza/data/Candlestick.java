@@ -1,6 +1,6 @@
 package com.cosenza.data;
 
-import com.cosenza.axis.Time;
+import com.cosenza.chart.axis.Time;
 
 public class Candlestick
 {

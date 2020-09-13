@@ -1,4 +1,4 @@
-package com.cosenza.axis;
+package com.cosenza.chart.axis;
 
 import com.cosenza.utils.Constants;
 import com.cosenza.utils.enums.AxisType;
@@ -12,16 +12,13 @@ import static com.cosenza.utils.Constants.PIXELS_BETWEEN_TIME_INCREMENTS;
 
 public class TimeAxis extends Axis
 {
+
     Timeframe timeframe;
     Time newestTimeObject;
-    //Time oldestTimeObject;
-    //Time changeableTimeObject;
     int maxHorizontalCoordinate;
 
     long oldestTimeEpoch;
     long newestTimeEpoch;
-
-
 
     public TimeAxis(Timeframe timeframe, Time mostRecentTime, AxisType axisType, Canvas canvas)
     {
@@ -38,7 +35,7 @@ public class TimeAxis extends Axis
 
         newestTimeEpoch = mostRecentTime.secondsSinceEpoch();
         oldestTimeEpoch = newestTimeEpoch - numberOfIncrements * Timeframe.HOUR.getValue();
-
+        System.out.println(newestTimeObject.secondsSinceEpoch()-Timeframe.MINUTE.getValue());
     }
 
     public void draw()
@@ -59,25 +56,6 @@ public class TimeAxis extends Axis
             iterableEpochTime -= timeframe.getValue();
             horizontalCoordinate -= PIXELS_BETWEEN_TIME_INCREMENTS;
         }
-
-
-/*
-        //Re-initializes the iterable time object with the most recent time.
-        changeableTimeObject = new Time(newestTimeObject.secondsSinceEpoch());
-        changeableTimeObject.roundToTimeframe(Timeframe.HOUR);
-
-        int horizontalCoordinate = maxHorizontalCoordinate;
-        graphicsContext.setTextBaseline(VPos.CENTER);
-
-
-        for (int i = 0; i < numberOfIncrements; i++)
-        {
-            graphicsContext.strokeText(changeableTimeObject.formattedAxisString(), horizontalCoordinate, 8);
-            changeableTimeObject.changeTimeSubtractTimeframe(timeframe);
-            horizontalCoordinate -= PIXELS_BETWEEN_TIME_INCREMENTS;
-            //number += valueOfIncrements;
-        }
-        oldestTimeObject = new Time(changeableTimeObject.secondsSinceEpoch());*/
     }
 
     public void drawHashes(GraphicsContext graphicsContext)
@@ -93,25 +71,6 @@ public class TimeAxis extends Axis
     }
     public int getCandlestickCoordinatesX(Time time)
     {
-        int startingCandlestickPixel;
-        int numberOfCandlesticks;
-        /*
-        * if i have 5 candlesticks between each number, i need to find the pixels between them minus the pixel buffer / 5
-        *
-        * Second Idea. What if we just return how many candlesticks can be displayed on the screen and return that number
-        * so when
-        *
-        *
-        *  */
-
-/*        int width = Constants.PIXELS_BETWEEN_TIME_INCREMENTS / Constants.INCREMENTS_BETWEEN_TIME_UNITS - Constants.PIXELS_BUFFER_BETWEEN_CANDLESTICKS;
-        int x1 = Constants.PIXEL_BUFFER_TIME_AXIS
-
-        return new int[] { 1, 2 };
-         return (int)(canvas.getWidth() - Constants.PIXEL_BUFFER_TIME_AXIS / numberOfIncrements * Constants.INCREMENTS_BETWEEN_TIME_UNITS);
-
-        */
-
 
         long timeSinceEpoch = Time.roundLongToTimeframe(time.secondsSinceEpoch(), timeframe);
 
@@ -128,8 +87,6 @@ public class TimeAxis extends Axis
 
         }
         else throw new IndexOutOfBoundsException();
-
-
 
       }
 }

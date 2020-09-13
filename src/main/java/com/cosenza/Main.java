@@ -1,7 +1,7 @@
 package com.cosenza;
 
-import com.cosenza.chart.WIndowFrame;
-import com.cosenza.utils.CSVReader;
+import com.cosenza.chart.CandlestickChart;
+import com.cosenza.data.CSVReader;
 import com.cosenza.utils.Constants;
 import com.cosenza.data.OHLC;
 import javafx.application.Application;
@@ -27,7 +27,6 @@ public class Main extends Application
 {
 
     //private static Scene scene;
-    private ObservableList<OHLC> DataSet;
     private float currentLowest;
     private float currentHighest;
 
@@ -40,7 +39,7 @@ public class Main extends Application
 
         Scene scene = new Scene(new Group(), Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        WIndowFrame chart = new WIndowFrame(
+        CandlestickChart chart = new CandlestickChart(
                 (int)(Constants.WINDOW_WIDTH  * Constants.CHART_AND_CANVAS_WIDTH_PERCENT),
                 (int)(Constants.WINDOW_HEIGHT * Constants.CHART_AND_CANVAS_HEIGHT_PERCENT));
 
@@ -82,7 +81,7 @@ public class Main extends Application
         CSVReader reader = new CSVReader();
         String userDirectory = System.getProperty("user.dir");
 
-        DataSet = reader.Read(userDirectory + "/src/main/resources/com/cosenza/data.csv");
+        //DataSet = reader.Read(userDirectory + "/src/main/resources/com/cosenza/data.csv");
     }
 
     public static void main(String[] args)

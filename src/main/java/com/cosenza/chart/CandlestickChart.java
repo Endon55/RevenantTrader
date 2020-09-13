@@ -1,21 +1,21 @@
 package com.cosenza.chart;
 
-import com.cosenza.axis.PriceAxis;
-import com.cosenza.axis.TimeAxis;
-import com.cosenza.axis.Time;
+import com.cosenza.chart.axis.PriceAxis;
+import com.cosenza.chart.axis.TimeAxis;
+import com.cosenza.chart.axis.Time;
 import com.cosenza.utils.enums.AxisType;
 import com.cosenza.data.OHLC;
 import com.cosenza.utils.enums.Timeframe;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
-public class WIndowFrame extends Chart
+public class CandlestickChart extends Chart
 {
     Color outlineColor;
     Color fillColor;
     TimeAxis timeAxis;
     PriceAxis priceAxis;
-    public WIndowFrame(int chartAndAxisWidth, int chartAndAxisHeight)
+    public CandlestickChart(int chartAndAxisWidth, int chartAndAxisHeight)
     {
         super(chartAndAxisWidth, chartAndAxisHeight);
         outlineColor = Color.RED;

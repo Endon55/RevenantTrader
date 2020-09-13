@@ -1,4 +1,4 @@
-package com.cosenza.axis;
+package com.cosenza.chart.axis;
 
 import com.cosenza.utils.Constants;
 import com.cosenza.utils.enums.AxisType;

@@ -1,17 +1,15 @@
-package com.cosenza;
+package com.cosenza.data;
 
 import com.cosenza.utils.Constants;
 import com.oanda.v20.Context;
 import com.oanda.v20.ContextBuilder;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
-import com.oanda.v20.account.AccountContext;
 import com.oanda.v20.account.AccountID;
 import com.oanda.v20.account.AccountSummary;
 import com.oanda.v20.instrument.Candlestick;
 import com.oanda.v20.instrument.CandlestickGranularity;
 import com.oanda.v20.pricing.*;
-import com.oanda.v20.pricing_common.*;
 import com.oanda.v20.primitives.DateTime;
 import com.oanda.v20.primitives.InstrumentName;
 
@@ -19,25 +17,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-public class Test
+public class OandaAPI
 {
-    public static void main(String[] args)
+    Context context;
+
+
+    public OandaAPI()
     {
-        Context context = new ContextBuilder(Constants.URL).setToken(Constants.TOKEN).setApplication("CandlestickPrice").build();
+        context = new ContextBuilder(Constants.URL).setToken(Constants.TOKEN).setApplication("CandlestickPrice").build();
 
         //context.account.
 
-        try
-        {
-            AccountSummary summary = context.account.summary(
-                    new AccountID(Constants.ACCOUNT_ID)).getAccount();
-            System.out.println(summary);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        //Gets historical data for any number of instruments
+        //Gets historical data for an instrument
         try
         {
             PricingCandlesRequest request = new PricingCandlesRequest(new InstrumentName("USD_JPY"));
@@ -52,7 +43,7 @@ public class Test
 
 
             PricingCandlesResponse response = context.pricing.candles(request);
-            List<Candlestick> prices = response.getCandles();
+            List<com.oanda.v20.instrument.Candlestick> prices = response.getCandles();
 
             for (Candlestick candlestick:prices)
             {
@@ -67,10 +58,51 @@ public class Test
         {
             e.printStackTrace();
         }
+    }
+    public void accountSummary()
+    {
+        try
+        {
+            AccountSummary summary = context.account.summary(
+                    new AccountID(Constants.ACCOUNT_ID)).getAccount();
+            System.out.println(summary);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Candlestick> getCandles(int numberOfCandles)
+    {
+
+        PricingCandlesRequest request;
+        request = new PricingCandlesRequest(new InstrumentName("USD_JPY"));
+        request.setPathParam("accountID", new AccountID(Constants.ACCOUNT_ID));
+        request.setPrice("BA");
+        request.setCount((long)numberOfCandles);
+        request.setFrom(new DateTime("1596853963"));
+        request.setTo(new DateTime("1598409163"));
+        request.setGranularity(CandlestickGranularity.H4);
+
+        //PricingCandlesResponse response = context.pricing.candles(Constants.INSTRUMENT);
 
 
+        PricingCandlesResponse response = null;
+        try
+        {
+            response = context.pricing.candles(request);
+        } catch (RequestException | ExecuteException e)
+        {
+            e.printStackTrace();
+        }
+
+        return response.getCandles();
+
+    }
+
+    public void streamData()
+    {
         //Gets a stream of pricing data for any number of instruments
-        /*
         List<String> instruments = new ArrayList<>(Arrays.asList("EUR_USD", "USD_JPY", "GBP_USD", "USD_CHF"));
 
         try{
@@ -97,7 +129,6 @@ public class Test
         } catch (RequestException | InterruptedException | ExecuteException e) {
             e.printStackTrace();
         }
-*/
-
     }
+
 }
